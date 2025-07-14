@@ -13,19 +13,12 @@
   ],
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
-    }
-  ],
-  "routes": [
+      "source": "/",
+      "destination": "/index.html"
+    },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/((?!api).*)",
+      "destination": "/index.html"
     }
-  ],
-  "env": {
-    "SUPABASE_URL": "@supabase_url",
-    "SUPABASE_SERVICE_KEY": "@supabase_service_key",
-    "OPENAI_API_KEY": "@openai_api_key"
-  }
+  ]
 }
