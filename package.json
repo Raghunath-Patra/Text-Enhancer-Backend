@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "echo 'No build step required'",
-    "deploy": "vercel --prod"
+    "build": "mkdir -p public && [ ! -f public/index.html ] && echo 'API is running' > public/index.html || echo 'Using existing public/index.html'",
+    "deploy": "vercel --prod",
+    "dev": "vercel dev"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,6 @@
     "@vercel/node": "^5.3.5"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": "18.x || 20.x"
   }
 }
