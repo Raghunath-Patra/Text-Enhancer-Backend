@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Enhancement API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .endpoint {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #007bff;
+        }
+        .method {
+            background: #007bff;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .status {
+            background: #28a745;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status">
+            ✅ API is running successfully
+        </div>
+        
+        <h1>Text Enhancement API</h1>
+        
+        <p>This is a serverless API for text enhancement using OpenAI. The API provides endpoints for user authentication and text processing.</p>
+        
+        <h2>Available Endpoints</h2>
+        
+        <div class="endpoint">
+            <h3><span class="method">POST</span> /api/auth/signup</h3>
+            <p>Create a new user account</p>
+            <p><strong>Body:</strong> <code>{"email": "user@example.com", "password": "password123"}</code></p>
+        </div>
+        
+        <div class="endpoint">
+            <h3><span class="method">POST</span> /api/auth/signin</h3>
+            <p>Sign in an existing user</p>
+            <p><strong>Body:</strong> <code>{"email": "user@example.com", "password": "password123"}</code></p>
+        </div>
+        
+        <div class="endpoint">
+            <h3><span class="method">POST</span> /api/enhance-text</h3>
+            <p>Enhance text using AI (requires authentication)</p>
+            <p><strong>Headers:</strong> <code>Authorization: Bearer &lt;token&gt;</code></p>
+            <p><strong>Body:</strong> <code>{"text": "Your text here", "enhancement_type": "general"}</code></p>
+        </div>
+        
+        <h2>Enhancement Types</h2>
+        <ul>
+            <li><code>general</code> - General improvement</li>
+            <li><code>professional</code> - Professional tone</li>
+            <li><code>casual</code> - Casual tone</li>
+            <li><code>concise</code> - Make it concise</li>
+            <li><code>detailed</code> - Add more detail</li>
+        </ul>
+        
+        <h2>Authentication</h2>
+        <p>Most endpoints require a Bearer token in the Authorization header. Get your token by signing in through the <code>/api/auth/signin</code> endpoint.</p>
+        
+        <h2>Rate Limits</h2>
+        <p>Users have daily token limits based on their subscription plan. Free users get a limited number of tokens per day.</p>
+        
+        <footer style="text-align: center; margin-top: 40px; color: #666;">
+            <p>Text Enhancement API - Powered by OpenAI</p>
+        </footer>
+    </div>
+</body>
+</html>
