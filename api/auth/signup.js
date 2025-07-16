@@ -25,8 +25,8 @@ export default async function handler(req, res) {
       email,
       password,
       options: {
-        // This will send a confirmation email
-        emailRedirectTo: process.env.FRONTEND_URL || 'https://your-domain.com/auth/callback'
+        // Redirect to your callback endpoint, not frontend
+        emailRedirectTo: `${process.env.VERCEL_URL || 'https://enhance-backend.vercel.app'}/api/auth/callback`
       }
     })
 
