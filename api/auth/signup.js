@@ -1,4 +1,3 @@
-// api/auth/signup.js
 import { supabase } from '../../lib/supabase.js'
 
 export default async function handler(req, res) {
@@ -20,14 +19,10 @@ export default async function handler(req, res) {
       return
     }
 
-    // Create user with Supabase Auth with email confirmation
+    // Create user with Supabase Auth
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        // This will send a confirmation email
-        emailRedirectTo: process.env.FRONTEND_URL || 'https://your-domain.com/auth/callback'
-      }
     })
 
     if (authError) {
@@ -35,61 +30,45 @@ export default async function handler(req, res) {
       return
     }
 
-    // Check if user needs email confirmation
-    if (authData.user && !authData.user.email_confirmed_at) {
-      res.status(201).json({
-        message: 'Please check your email and click the confirmation link to complete registration.',
-        user: {
-          id: authData.user.id,
-          email: authData.user.email,
-          email_confirmed: false
-        }
-      })
+    // Get the free plan ID
+    const { data: freePlan, error: planError } = await supabase
+      .from('subscription_plans')
+      .select('id')
+      .eq('name', 'free')
+      .single()
+
+    if (planError) {
+      res.status(500).json({ error: 'Failed to get free plan' })
       return
     }
 
-    // If email is already confirmed (or confirmation disabled), create user record
-    await createUserRecord(authData.user)
+    // Create user record in users table
+    const { error: userError } = await supabase
+      .from('users')
+      .insert([{
+        id: authData.user.id,
+        email: authData.user.email,
+        plan_id: freePlan.id,
+        tokens_used_today: 0,
+        last_usage_date: new Date().toISOString().split('T')[0] // YYYY-MM-DD format
+      }])
+
+    if (userError) {
+      console.error('User creation error:', userError)
+      res.status(500).json({ error: 'Failed to create user profile' })
+      return
+    }
 
     res.status(201).json({
       message: 'User created successfully',
       user: {
         id: authData.user.id,
-        email: authData.user.email,
-        email_confirmed: true
+        email: authData.user.email
       }
     })
 
   } catch (error) {
     console.error('Signup error:', error)
     res.status(500).json({ error: 'Internal server error' })
-  }
-}
-
-async function createUserRecord(user) {
-  // Get the free plan ID
-  const { data: freePlan, error: planError } = await supabase
-    .from('subscription_plans')
-    .select('id')
-    .eq('name', 'free')
-    .single()
-
-  if (planError) {
-    throw new Error('Failed to get free plan')
-  }
-
-  // Create user record in users table
-  const { error: userError } = await supabase
-    .from('users')
-    .insert([{
-      id: user.id,
-      email: user.email,
-      plan_id: freePlan.id,
-      tokens_used_today: 0,
-      last_usage_date: new Date().toISOString().split('T')[0]
-    }])
-
-  if (userError) {
-    throw new Error('Failed to create user profile')
   }
 }
