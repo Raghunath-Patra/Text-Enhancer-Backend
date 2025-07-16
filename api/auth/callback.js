@@ -130,13 +130,6 @@ export default async function handler(req, res) {
           <p>You can close this window and return to the app to sign in.</p>
           <a href="/" class="btn">Return to App</a>
         </div>
-        
-        <script>
-          // Auto-redirect after 5 seconds
-          setTimeout(() => {
-            window.location.href = '/';
-          }, 5000);
-        </script>
       </body>
       </html>
     `)
