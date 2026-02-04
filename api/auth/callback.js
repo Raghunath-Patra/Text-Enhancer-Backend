@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 
     if (req.method === 'GET') {
       // Extract from URL parameters (Supabase email verification redirect)
-      token_hash = req.query.token_hash
+      token_hash = req.query.token
       type = req.query.type
     }
 
@@ -128,7 +128,6 @@ export default async function handler(req, res) {
           <h1>Email Verified Successfully!</h1>
           <p>Your account has been created and verified. You can now use the Text Enhancement API.</p>
           <p>You can close this window and return to the app to sign in.</p>
-          <a href="/" class="btn">Return to App</a>
         </div>
       </body>
       </html>
